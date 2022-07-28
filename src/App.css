@@ -8,6 +8,8 @@
   border-spacing: 0;
   margin:0;
   padding:0;
+  text-align: center;
+  font-weight: 600;
 }
 
 
@@ -47,5 +49,17 @@
 
 .pointer_cursor{
   cursor: pointer;
+}
+
+.Dark_Blue_color{
+  color:blue
+}
+
+.Dark_black_color{
+  color:black
+}
+
+.Light_orange_color{
+  color:orange
 }
 

@@ -1,7 +1,6 @@
 import { React, Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-import { Container } from 'react-bootstrap';
-import { toBePartiallyChecked } from '@testing-library/jest-dom/dist/matchers';
+import  sudokuGenerator  from './sudoku_generator'
 
 
 function Solveable(arr){
@@ -27,7 +26,7 @@ class Solver extends Component {
       temp[i] = new Array(9);
       for(let j = 0;  j < 9; j++)
         {
-          if(i%2 ==0){
+          if(i%2 === 0){
             temp[i][j]={
               type: 'manual',
               color: 'black',
@@ -36,9 +35,9 @@ class Solver extends Component {
           }
           else{
             temp[i][j]={
-              type: 'auto',
+              type: 'hint',
               color: 'black',
-              value: '0'
+              value: '3'
             };
           }
          
@@ -73,21 +72,44 @@ class Solver extends Component {
     }
   }
 
-  onChangeInput = (value , event) => {
-    console.log("Value at this row and col", value)
+  handleCellClick = (value , event) => {
+    //console.log("Value at this row and col", value)
+    let arr = sudokuGenerator(9,2);
+    console.log(arr)
     const row = Math.floor(value/9);
     const col = Math.floor(value%9);
 
     let temp = this.state.arr;
-    //console.log(temp)
-    console.log(event.target.value)
-    console.log("Row value ",row)
-    console.log("Col value",col)
-    temp[row][col] = event.target.value
 
+    if(temp[row][col].type === 'manual'){
+      // console.log("Row ",row);
+      // console.log("Col ",col)
+      // console.log("Choice ",this.state.choice)
+      temp[row][col].value = this.state.choice
+    }
+    else{
+      return;
+    }
+    //console.log(this.state.choice)
     this.setState({
       arr : temp
     })
+  }
+
+
+  handleChoiceClick = (event) =>{
+    let value = event.target.innerHTML
+    //console.log(event.target.innerHTML)
+    if(value === 'Eraser'){
+      this.setState({
+        choice: '0'
+      })
+    }
+    else{
+      this.setState({
+        choice: value
+      })
+    }
   }
   
 
@@ -98,6 +120,8 @@ class Solver extends Component {
     let arr = this.state.arr
     for(let p=0;p<9;p++){
       let row = []
+
+
       for(let q=0;q<9;q++){
         let i = p*9+q;
         let className = "puzzle_input"
@@ -116,14 +140,27 @@ class Solver extends Component {
 
         if( arr[p][q].type === 'manual'){
           className = className + " pointer_cursor";
+          if( arr[p][q].value != '0'){
+            className = className + " Dark_Blue_color";
+          }
         }
+
+        if( arr[p][q].type === 'auto'){
+          className = className + " Dark_black_color";
+        }
+
+
+        if( arr[p][q].type === 'hint'){
+          className = className + " Light_orange_color";
+        }
+
+        
        
 
-        row.push(<p  className ={className}
-        onClick = { (event) => this.onChangeInput(i,event)} 
+        row.push(<p  className = {className}
+        onClick = { (event) => this.handleCellClick(i,event)} 
         key = {i} 
-        value={ arr[p][q].value === 0 ? '': arr[p][q]}
-        ></p>)
+        >{ arr[p][q].value === '0' ? '': arr[p][q].value}</p>)
 
       }
 
@@ -136,7 +173,7 @@ class Solver extends Component {
 
     for(let i = 0; i<=9; i++){
       choices_button.push(
-        <button value = {i}>{ i === 0 ? "Eraser" : i}</button>
+        <button key = {i} onClick = {this.handleChoiceClick}>{ i === 0 ? "Eraser" : i}</button>
       )
     }
 
@@ -145,7 +182,9 @@ class Solver extends Component {
         <div id="puzzle">
           {board}
           {choices_button}
+
         </div>
+
 
        
       </>
