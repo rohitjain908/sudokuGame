@@ -1,11 +1,21 @@
 import { React, Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Container } from 'react-bootstrap';
+import { toBePartiallyChecked } from '@testing-library/jest-dom/dist/matchers';
 
 
 function Solveable(arr){
+  console.log(arr)
   return true
 }
+
+//each cell of grid will be a object
+// cell object {
+//   type-> auto,manually,hint,
+//   color-> black,blue,yellow,
+//   value-> 1 to 9
+
+// }
 
 class Solver extends Component {
 
@@ -17,13 +27,27 @@ class Solver extends Component {
       temp[i] = new Array(9);
       for(let j = 0;  j < 9; j++)
         {
-          temp[i][j]=0;
+          if(i%2 ==0){
+            temp[i][j]={
+              type: 'manual',
+              color: 'black',
+              value: '0'
+            };
+          }
+          else{
+            temp[i][j]={
+              type: 'auto',
+              color: 'black',
+              value: '0'
+            };
+          }
+         
         }
         
     }
     this.state = {
       arr : temp,
-      temp : temp
+      choice : '0'
     }
   }
 
@@ -47,8 +71,6 @@ class Solver extends Component {
     else{
       //have to print some message
     }
-
-
   }
 
   onChangeInput = (value , event) => {
@@ -78,51 +100,56 @@ class Solver extends Component {
       let row = []
       for(let q=0;q<9;q++){
         let i = p*9+q;
-        let id = ""
-        if( ((i % 9 === 0 || i % 9 === 1 || i % 9 === 2) && i < 21) ||
-        ((i % 9 === 6 || i % 9 === 7 || i % 9 === 8) && i < 27) ||
-        ((i % 9 === 3 || i % 9 === 4 || i % 9 === 5) && (i > 27 && i < 53)) ||
-        ((i % 9 === 0 || i % 9 === 1 || i % 9 === 2) && i > 53) ||
-        ((i % 9 === 6 || i % 9 === 7 || i % 9 === 8) && i > 53) ){
-            id = "puzzle_input1"
+        let className = "puzzle_input"
+        if(q%3 === 2){
+          className = className + " border_right";
         }
-        else{
-            id = "puzzle_input2"
+        if(p%3 === 2){
+          className = className + " border_bottom"
+        }
+        if(p === 0 ){
+          className = className + " border_up"
+        }
+        if( q === 0 ){
+          className = className + " border_left" ;
         }
 
-        row.push(<input type="number" id = {id} 
-        min = '1' max ='9' onChange = { (event) => this.onChangeInput(i,event)} key = {i} value={arr[p][q] === 0 ? '': arr[p][q]}></input>)
+        if( arr[p][q].type === 'manual'){
+          className = className + " pointer_cursor";
+        }
+       
+
+        row.push(<p  className ={className}
+        onClick = { (event) => this.onChangeInput(i,event)} 
+        key = {i} 
+        value={ arr[p][q].value === 0 ? '': arr[p][q]}
+        ></p>)
 
       }
+
       board.push(row)
+     
+    }
+
+
+    let choices_button = [];
+
+    for(let i = 0; i<=9; i++){
+      choices_button.push(
+        <button value = {i}>{ i === 0 ? "Eraser" : i}</button>
+      )
     }
 
     return (
       <>
-     <Container id="puzzle">
-        {board}
-        <button onClick={this.onSolve}>Solve</button>
-      </Container>
-       {/* <Container id="puzzle">
-          {this.state.temp.map((row)=>(
-            row.map((i)=>
-              <input 
-              type="number" 
-              id={ ((i % 9 === 0 || i % 9 === 1 || i % 9 === 2) && i < 21) ||
-                ((i % 9 === 6 || i % 9 === 7 || i % 9 === 8) && i < 27) ||
-                ((i % 9 === 3 || i % 9 === 4 || i % 9 === 5) && (i > 27 && i < 53)) ||
-                ((i % 9 === 0 || i % 9 === 1 || i % 9 === 2) && i > 53) ||
-                ((i % 9 === 6 || i % 9 === 7 || i % 9 === 8) && i > 53) ? "puzzle_input1":"puzzle_input2"}
-                min = '1' max ='9' onChange = { (event) => this.onChangeInput(i,event)} key = {i}
-                ></input>)
-                        
-            ))}
+        <div id="puzzle">
+          {board}
+          {choices_button}
+        </div>
 
-          <button id ="solve_button" onClick={this.onSolve}>Solve</button>
-         </Container> 
-         */}
+       
       </>
-      
+     
       
     )
   }
