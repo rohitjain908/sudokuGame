@@ -21,27 +21,25 @@ class Solver extends Component {
   constructor(props) {
     super(props);
 
-    var temp = new Array(9);
+    let randomSudoku =  sudokuGenerator(9,"Easy");
+
+    var temp =  new Array(9);
     for(let i = 0; i < 9; i++){
       temp[i] = new Array(9);
-      for(let j = 0;  j < 9; j++)
-        {
-          if(i%2 === 0){
-            temp[i][j]={
-              type: 'manual',
-              color: 'black',
-              value: '0'
-            };
+      for(let j = 0;  j < 9; j++){
+        if(randomSudoku[i][j] === 0){
+          temp[i][j] = {
+            type: 'manual',
+            value: '0'
           }
-          else{
-            temp[i][j]={
-              type: 'hint',
-              color: 'black',
-              value: '3'
-            };
-          }
-         
         }
+        else{
+          temp[i][j] = {
+            type: 'auto',
+            value: randomSudoku[i][j]
+          }
+        }
+      }
         
     }
     this.state = {
@@ -74,8 +72,8 @@ class Solver extends Component {
 
   handleCellClick = (value , event) => {
     //console.log("Value at this row and col", value)
-    let arr = sudokuGenerator(9,2);
-    console.log(arr)
+    // let arr = sudokuGenerator(9,2);
+    // console.log(arr)
     const row = Math.floor(value/9);
     const col = Math.floor(value%9);
 
@@ -170,19 +168,31 @@ class Solver extends Component {
 
 
     let choices_button = [];
+    
 
     for(let i = 0; i<=9; i++){
       choices_button.push(
-        <button key = {i} onClick = {this.handleChoiceClick}>{ i === 0 ? "Eraser" : i}</button>
+        <button key = {i} className ="choice_button" onClick = {this.handleChoiceClick}>{ i === 0 ? "Eraser" : i}</button>
       )
     }
 
     return (
       <>
-        <div id="puzzle">
-          {board}
-          {choices_button}
+        
 
+        <div >
+          <div id="puzzle">
+            {board}
+          </div>
+          <div >
+            {choices_button}
+          </div>
+          <div>
+            <button type="button" class="btn btn-primary">Clear</button>
+            <button type="button" class="btn btn-warning">Hint</button>
+            <button type="button" class="btn btn-success">Solve</button>
+            <button type="button" class="btn btn-danger">New Game</button>
+          </div>
         </div>
 
 
