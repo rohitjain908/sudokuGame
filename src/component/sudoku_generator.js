@@ -240,7 +240,7 @@ class Sudoku {
             arr.push(i);
         }
         this.shuffle(arr);
-        console.log(arr);
+        //console.log(arr);
         for(let i = 0; i < this.K; i++){
             let row = Math.floor(arr[i]/9);
             let col = arr[i]%9;
@@ -286,7 +286,7 @@ const sudokuGenerator = (N,type) => {
 
     let sudoku = new Sudoku(9,K);
     let grid = sudoku.generate();
-    console.log(grid);
+    //console.log(grid);
     return grid;
 }
 
