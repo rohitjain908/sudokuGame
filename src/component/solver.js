@@ -5,6 +5,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import solver from './sudoku_solver';
+import { Button,Card,CardTitle,Label,Modal,ModalBody,ModalHeader,Form,FormGroup,Input } from 'reactstrap';
 
 
 function Solveable(arr){
@@ -174,7 +175,9 @@ class Solver extends Component {
     this.state = {
       arr : temp,
       choice : '0',
-      notSolved: false
+      notSolved: false,
+      start: false,
+      gameType: "Easy"
     }
   }
 
@@ -241,32 +244,12 @@ class Solver extends Component {
   }
 
   handleNewgame = (event) =>{
-    //console.log("New Game")
-    let randomSudoku =  sudokuGenerator(9,"Easy");
-    //console.log(randomSudoku)
-    var temp =  new Array(9);
-    for(let i = 0; i < 9; i++){
-      temp[i] = new Array(9);
-      for(let j = 0;  j < 9; j++){
-        if(randomSudoku[i][j] === 0){
-          temp[i][j] = {
-            type: 'manual',
-            value: '0'
-          }
-        }
-        else{
-          temp[i][j] = {
-            type: 'auto',
-            value: randomSudoku[i][j]
-          }
-        }
-      }
-        
-    }
 
     this.setState({
-      arr: temp
+      start: true
     })
+    console.log("New Game", this.state.gameType)
+    
   }
 
 
@@ -347,47 +330,77 @@ class Solver extends Component {
       this.state.arr[row][col] =  {type:'hint',value:response['arr'][row][col]}
       this.setState({
         arr:this.state.arr
-      })
-
-      
+      })      
     }
+    else{
+      this.setState({
+        notSolved: true
+      })
+    }
+  }
+
+
+
+  toggleNotSolved = () => {
+    this.setState({
+      notSolved: !this.state.notSolved
+    })
+  }
+
+
+  toggleStart = () => {
+    this.setState({
+      start: !this.state.start
+    })
+  }
+
+
+  handleGameType = (event) => {
+    let value = event.target.innerHTML;
+    console.log(value);
+    this.setState({
+      gameType: value
+    })
+
+
+    let randomSudoku =  sudokuGenerator(9,this.state.gameType);
+
+
+    //console.log(randomSudoku)
+    var temp =  new Array(9);
+    for(let i = 0; i < 9; i++){
+      temp[i] = new Array(9);
+      for(let j = 0;  j < 9; j++){
+        if(randomSudoku[i][j] === 0){
+          temp[i][j] = {
+            type: 'manual',
+            value: '0'
+          }
+        }
+        else{
+          temp[i][j] = {
+            type: 'auto',
+            value: randomSudoku[i][j]
+          }
+        }
+      }
+        
+    }
+
+    this.setState({
+      arr: temp,
+      notSolved:false,
+      choice: '0'
+    })
+
+    this.setState({
+      start: false
+    })
   }
   
 
 
   render() {  
-
-//     if (this.state.notSolved === true ){
-//       return(
-//         <>
-          
-// <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
-//   Launch demo modal
-// </button>
-
-
-// <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-//   <div class="modal-dialog modal-dialog-centered" role="document">
-//     <div class="modal-content">
-//       <div class="modal-header">
-//         <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
-//         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-//           <span aria-hidden="true">&times;</span>
-//         </button>
-//       </div>
-//       <div class="modal-body">
-//         ...
-//       </div>
-//       <div class="modal-footer">
-//         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-//         <button type="button" class="btn btn-primary">Save changes</button>
-//       </div>
-//     </div>
-//   </div>
-// </div>
-//         </>
-//       )
-//     }
 
     let board = [];
     let arr = this.state.arr;
@@ -499,6 +512,29 @@ class Solver extends Component {
             <button type="button" className="btn btn-danger" onClick={this.handleNewgame}>New Game</button>
           </div>
         </div>
+
+
+        <Modal isOpen={this.state.notSolved} toggle={this.toggleNotSolved}>
+          <ModalHeader toggle={this.toggleNotSolved}>Sudoku Game</ModalHeader>
+          <ModalBody>
+            No Solution
+          </ModalBody>
+        </Modal>
+        
+
+        <Modal isOpen={this.state.start} toggle={this.toggleStart}>
+          <ModalHeader toggle={this.toggleStart}>Difficulty Mode</ModalHeader>
+          <ModalBody>
+            <button type = "button" className="btn btn-success" onClick = {this.handleGameType}>Easy</button>
+            <button type = "button" className="btn btn-warning"  onClick = {this.handleGameType}>Medium</button>
+            <button type = "button" className="btn btn-danger"  onClick = {this.handleGameType}>Hard</button>
+           
+             
+          </ModalBody>
+        </Modal>
+
+        
+        
 
 
        

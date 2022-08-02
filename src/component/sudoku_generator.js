@@ -259,29 +259,29 @@ class Sudoku {
 
 const sudokuGenerator = (N,type) => {
     // console.log(N);
-    // console.log(type);
+    console.log("Type", type);
 
     let K;
 
 
 
     if (type == "Easy"){
-        let Minimum = Math.floor(N/3)
-        let Maximum = Math.floor(N/2);
+        let Minimum = 20;
+        let Maximum = 40;
         K = randomNumberGenerator(Minimum, Maximum);
     }
     else if(type == "Medium"){
-        let Minimum = Math.floor(N/3)
-        let Maximum = Math.floor(N/2);
+        let Minimum = 30;
+        let Maximum = 50;
         K = randomNumberGenerator(Minimum, Maximum);
     }
     else if(type == "Hard"){
-        let Minimum = Math.floor(N/3)
-        let Maximum = Math.floor(N/2);
+        let Minimum = 40;
+        let Maximum = 70;
         K = randomNumberGenerator(Minimum, Maximum);
     }
 
-    K = 40;
+    // K = 40;
     //5 2 5
 
     let sudoku = new Sudoku(9,K);
