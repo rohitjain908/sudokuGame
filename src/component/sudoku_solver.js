@@ -81,14 +81,26 @@ const sudokuSolver = (arr) =>{
 
 const solve = (parameter) =>{
     var arr = parameter.map((row)=>row.map((item)=>item));
-    // console.log("Solver",arr)
+    console.log("Solver",arr);
+
+    for(let i = 0; i < 9; i++){
+        for(let j = 0; j < 9; j++){
+            if(arr[i][j] !== 0){
+                if(!isValid(arr, i, j, arr[i][j], 9)){
+                    return {
+                        message: "notSolved",
+                        arr: arr
+                    }
+                }
+            }
+        }
+    }
     if(sudokuSolver(arr)){
         return {
             message: "Solved",
             arr: arr
         }
     }
-console.log("gxdgx");
     return {
         message: "notSolved",
         arr: arr

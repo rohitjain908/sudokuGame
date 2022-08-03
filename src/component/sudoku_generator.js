@@ -217,7 +217,7 @@ class Sudoku {
         let currentIndex = array.length,  randomIndex;
 
         // While there remain elements to shuffle.
-        while (currentIndex != 0) {
+        while (currentIndex !== 0) {
 
             // Pick a remaining element.
             randomIndex = Math.floor(Math.random() * currentIndex);
@@ -232,7 +232,7 @@ class Sudoku {
     }
 
     generate(){
-        let f = this.generateValidSudoku();
+        this.generateValidSudoku();
         // let grid = this.grid
         // console.log(grid)
         let arr = [];
@@ -265,17 +265,17 @@ const sudokuGenerator = (N,type) => {
 
 
 
-    if (type == "Easy"){
+    if (type === "Easy"){
         let Minimum = 20;
         let Maximum = 40;
         K = randomNumberGenerator(Minimum, Maximum);
     }
-    else if(type == "Medium"){
+    else if(type === "Medium"){
         let Minimum = 30;
         let Maximum = 50;
         K = randomNumberGenerator(Minimum, Maximum);
     }
-    else if(type == "Hard"){
+    else if(type === "Hard"){
         let Minimum = 40;
         let Maximum = 70;
         K = randomNumberGenerator(Minimum, Maximum);

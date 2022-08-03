@@ -1,11 +1,10 @@
 import { React, Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import  sudokuGenerator  from './sudoku_generator';
-import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import solver from './sudoku_solver';
-import { Button,Card,CardTitle,Label,Modal,ModalBody,ModalHeader,Form,FormGroup,Input } from 'reactstrap';
+import { Modal,ModalBody,ModalHeader } from 'reactstrap';
 
 
 function Solveable(arr){
@@ -25,7 +24,7 @@ function shuffle(array){
   let currentIndex = array.length,  randomIndex;
 
   // While there remain elements to shuffle.
-  while (currentIndex != 0) {
+  while (currentIndex !== 0) {
 
       // Pick a remaining element.
       randomIndex = Math.floor(Math.random() * currentIndex);
@@ -146,7 +145,7 @@ function IsWrongFilled(row,col,g){
 
 // }
 
-class Solver extends Component {
+class Game extends Component {
 
   constructor(props) {
     super(props);
@@ -293,7 +292,7 @@ class Solver extends Component {
     for(let i = 0; i < 9; i++){
       temp[i] = new Array(9);
       for(let j = 0;  j < 9; j++){
-        if(this.state.arr[i][j].type != 'auto'){
+        if(this.state.arr[i][j].type !== 'auto'){
           temp[i][j] = {
             type: 'manual',
             value: '0'
@@ -437,7 +436,7 @@ class Solver extends Component {
 
         if( arr[p][q].type === 'manual'){
           className = className + " pointer_cursor";
-          if( arr[p][q].value != '0'){
+          if( arr[p][q].value !== '0'){
             className = className + " Dark_Blue_color";
           }
         }
@@ -488,7 +487,7 @@ class Solver extends Component {
     }
 
     for(let i = 5; i<=9; i++){
-      var className = "choice_button";
+      className = "choice_button";
       if(i === parseInt(this.state.choice)){
         className = className + " current_choice"
       }
@@ -556,4 +555,4 @@ class Solver extends Component {
   }
 }
 
-export default Solver;
+export default Game;

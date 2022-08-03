@@ -1,11 +1,11 @@
 import React from 'react';
 import './App.css';
-import Solver from './component/solver.js'
+import Game from './component/sudokuGame.js'
 
 function App() {
   return (
    <div>
-    <Solver/>
+    <Game/>
    </div>
   );
 }
