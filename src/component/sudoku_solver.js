@@ -3,6 +3,7 @@
 function usedInRow(arr, row, value, N){
     for(let col = 0; col < N; col++){
         if(arr[row][col] === value){
+            //console.log(row,col,value)
             return true;
         } 
     }
@@ -37,12 +38,15 @@ function usedInBox(arr,row, col, value, N){
 }
 
 function isValid(arr, row, col, value, N){
+    //console.log("Row")
     if(usedInRow(arr, row, value, N))
     return false;
 
+    //console.log("Col")
     if(usedInColumn(arr, col, value, N))
     return false;
 
+    //console.log("Box")
     if(usedInBox(arr, row, col, value, N))
     return false;
 
@@ -86,12 +90,17 @@ const solve = (parameter) =>{
     for(let i = 0; i < 9; i++){
         for(let j = 0; j < 9; j++){
             if(arr[i][j] !== 0){
-                if(!isValid(arr, i, j, arr[i][j], 9)){
+                let value = arr[i][j];
+                arr[i][j] = 0;
+                if(!isValid(arr, i, j, value, 9)){
+                    //console.log("Invalid sudoku", arr[i][j],i,j)
+
                     return {
                         message: "notSolved",
                         arr: arr
                     }
                 }
+                arr[i][j] = value;
             }
         }
     }
