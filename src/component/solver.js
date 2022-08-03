@@ -243,14 +243,7 @@ class Solver extends Component {
     }
   }
 
-  handleNewgame = (event) =>{
-
-    this.setState({
-      start: true
-    })
-    console.log("New Game", this.state.gameType)
-    
-  }
+ 
 
 
     handleSolve = (event) => {
@@ -355,47 +348,65 @@ class Solver extends Component {
   }
 
 
+   handleNewgame = (event) =>{
+
+    this.setState({
+      start: true
+    })
+    //console.log("New Game", this.state.gameType)
+    
+  }
+
+
   handleGameType = (event) => {
+
     let value = event.target.innerHTML;
-    console.log(value);
+    //console.log(value);
     this.setState({
-      gameType: value
-    })
-
-
-    let randomSudoku =  sudokuGenerator(9,this.state.gameType);
-
-
-    //console.log(randomSudoku)
-    var temp =  new Array(9);
-    for(let i = 0; i < 9; i++){
-      temp[i] = new Array(9);
-      for(let j = 0;  j < 9; j++){
-        if(randomSudoku[i][j] === 0){
-          temp[i][j] = {
-            type: 'manual',
-            value: '0'
-          }
-        }
-        else{
-          temp[i][j] = {
-            type: 'auto',
-            value: randomSudoku[i][j]
-          }
-        }
-      }
-        
-    }
-
-    this.setState({
-      arr: temp,
-      notSolved:false,
-      choice: '0'
-    })
-
-    this.setState({
+      gameType: value,
       start: false
     })
+
+   
+    
+
+    setTimeout(()=> {
+      console.log("Game Type ", this.state.gameType);
+      let randomSudoku =  sudokuGenerator(9,this.state.gameType);
+      var temp =  new Array(9);
+      for(let i = 0; i < 9; i++){
+        temp[i] = new Array(9);
+        for(let j = 0;  j < 9; j++){
+          if(randomSudoku[i][j] === 0){
+            temp[i][j] = {
+              type: 'manual',
+              value: '0'
+            }
+          }
+          else{
+            temp[i][j] = {
+              type: 'auto',
+              value: randomSudoku[i][j]
+            }
+          }
+        }
+          
+      }
+
+      this.setState({
+        arr: temp,
+        notSolved:false,
+        choice: '0'
+      })
+      //console.log("Game Type ", this.state.gameType)
+    },10)
+
+    
+
+    //console.log(randomSudoku)
+    
+
+    
   }
   
 
