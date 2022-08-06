@@ -18,7 +18,24 @@
   height: 270px;
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
+  margin-top: 20px;
+  text-align: center;
+ 
+}
+
+.Buttons{
+  margin:auto
+}
+
+.title{
+  text-align: center;
+  color:rgb(14, 4, 4);
+  font-weight: 100px;
+  font-size: large;
+  margin-top: 100px;
+  text-decoration: underline;
+  margin-right: 55px;
+  
 }
 
 .border_right{
@@ -62,11 +79,11 @@
 }
 
 .choice_button{
-  background-color: yellow;
-  border-radius: 7px;
-  size: 10px;
-  margin:10px;
+  background-color: white;
+  border-radius: 10px; 
+  margin:8px;
   cursor: pointer;
+  font-weight: 700;
 }
 
 
@@ -85,5 +102,6 @@
 }
 
 .current_choice{
-  background-color: lightgrey
+  background-color: rgb(46, 33, 33);
+  color: white;
 }

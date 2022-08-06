@@ -227,10 +227,12 @@ class Game extends Component {
   }
 
 
-  handleChoiceClick = (event) =>{
-    let value = event.target.innerHTML
+  handleChoiceClick = (event, value) =>{
+    // console.log(event.target)
+    // let value = event.target.value
+    console.log(value)
     //console.log(event.target.innerHTML)
-    if(value === 'Eraser'){
+    if(value === 0){
       this.setState({
         choice: '0'
       })
@@ -481,7 +483,7 @@ class Game extends Component {
       }
       choices_button1.push(
         <Col>
-          <button key = {i*1000} className ={className} onClick = {this.handleChoiceClick}>{ i === 0 ? "Eraser" : i}</button>
+          <button key = {i*1000} className ={className}  onClick = { (event) => this.handleChoiceClick(event,i)} >{ i === 0 ? <i class='fa fa-eraser'></i> : i}</button>
         </Col>
       )
     }
@@ -493,7 +495,7 @@ class Game extends Component {
       }
       choices_button2.push(
         <Col>
-          <button key = {i*1000} className ={className} onClick = {this.handleChoiceClick}>{ i === 0 ? "Eraser" : i}</button>
+          <button key = {i*1000} className ={className}  onClick = { (event) => this.handleChoiceClick(event,i)} >{ i === 0 ? "Eraser" : i}</button>
         </Col>
       )
     }
@@ -503,25 +505,27 @@ class Game extends Component {
         
         
 
-        <div >
+        
+          <div className = "title">
+            <strong>Sudoku Game</strong>
+            
+          </div>
           <div id="puzzle">
             {board}
           </div>
-          <div >
+          <div className ="Buttons">
             <Row>
               {choices_button1}
             </Row>
             <Row>
               {choices_button2}
             </Row>
-          </div>
-          <div>
             <button type="button" className="btn btn-primary" onClick={this.handleClear}>Clear</button>
             <button type="button" className="btn btn-warning" onClick={this.handleHint}>Hint</button>
             <button type="button" className="btn btn-success" onClick={this.handleSolve}>Solve</button>
             <button type="button" className="btn btn-danger" onClick={this.handleNewgame}>New Game</button>
           </div>
-        </div>
+        
 
 
         <Modal isOpen={this.state.notSolved} toggle={this.toggleNotSolved}>
