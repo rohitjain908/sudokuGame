@@ -320,10 +320,26 @@ class Game extends Component {
     if(response['message'] === "Solved"){
       let value = getRandomUnfilledPosition(request);
       let row = Math.floor(value/9);
-      let col = Math.floor(value%9);  
-      this.state.arr[row][col] =  {type:'hint',value:response['arr'][row][col]}
+      let col = Math.floor(value%9);
+      var temp =  new Array(9);
+
+      for(let i = 0; i < 9; i++){
+        temp[i] = new Array(9);
+        for(let j = 0;  j < 9; j++){
+          if( i === row && j === col){
+            temp[i][j] =  {type:'hint',value:response['arr'][row][col]}
+          }
+          else{
+            temp[i][j] = this.state.arr[i][j]
+          }
+        }
+          
+      }
+
+
+      //this.state.arr[row][col] =  {type:'hint',value:response['arr'][row][col]}
       this.setState({
-        arr:this.state.arr
+        arr:temp
       })      
     }
     else{
