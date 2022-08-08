@@ -272,12 +272,12 @@ const sudokuGenerator = (N,type) => {
     }
     else if(type === "Medium"){
         let Minimum = 30;
-        let Maximum = 50;
+        let Maximum = 45;
         K = randomNumberGenerator(Minimum, Maximum);
     }
     else if(type === "Hard"){
         let Minimum = 40;
-        let Maximum = 70;
+        let Maximum = 60;
         K = randomNumberGenerator(Minimum, Maximum);
     }
 

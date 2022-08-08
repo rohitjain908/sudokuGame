@@ -247,12 +247,12 @@ class Game extends Component {
  
 
 
-    handleSolve = (event) => {
+    handleSolve = () => {
 
       let request = getArray(this.state.arr);
       console.log("Reuquest",request)
       let response = solver(request);
-      console.log("request",request)
+      console.log("request",request);
       //let response = {"message": "sdjsd","arr":"dsfkj"}
       console.log("Response", response)
       if(response['message'] === "Solved"){
@@ -402,6 +402,9 @@ class Game extends Component {
       //console.log("Game Type ", this.state.gameType)
     },10)
 
+
+
+
     
 
     //console.log(randomSudoku)
@@ -483,7 +486,7 @@ class Game extends Component {
       }
       choices_button1.push(
         <Col>
-          <button key = {i*1000} className ={className}  onClick = { (event) => this.handleChoiceClick(event,i)} >{ i === 0 ? <i class='fa fa-eraser'></i> : i}</button>
+          <button key = {i*1000} className ={className}  onClick = { (event) => this.handleChoiceClick(event,i)} >{ i === 0 ? <i className='fa fa-eraser'></i> : i}</button>
         </Col>
       )
     }
@@ -524,6 +527,11 @@ class Game extends Component {
             <button type="button" className="btn btn-warning" onClick={this.handleHint}>Hint</button>
             <button type="button" className="btn btn-success" onClick={this.handleSolve}>Solve</button>
             <button type="button" className="btn btn-danger" onClick={this.handleNewgame}>New Game</button>
+          </div>
+
+          <div className="mb-0 footer-container text-center bg-dark text-white py-2 footer">
+            <p className="mb-0">Made by <a href="https://www.linkedin.com/in/rohit-jain-a732b11b0/" target="_blank" className="text-primary" rel="noreferrer">Rohit</a> with 
+            <span class="text-danger">♥</span></p>
           </div>
         
 
