@@ -137,6 +137,28 @@ function IsWrongFilled(row,col,g){
 
 
 
+function isSolved(g){
+  var grid = g.map((row)=>row.map((item)=>parseInt(item.value)));
+  for(let i = 0; i < 9; i++){
+    for(let j = 0; j < 9; j++){
+      if(grid[i][j] === 0){
+        return false
+      }
+    }
+  }
+
+  for(let i = 0; i < 9; i++){
+    for(let j = 0; j < 9; j++){
+      if(IsWrongFilled(i,j,g)){
+        return false
+      }
+    }
+  }
+  return true
+}
+
+
+
 //each cell of grid will be a object
 // cell object {
 //   type-> auto,manually,hint,
@@ -176,7 +198,9 @@ class Game extends Component {
       choice : '0',
       notSolved: false,
       start: false,
-      gameType: "Easy"
+      gameType: "Easy",
+      solved: false
+
     }
   }
 
@@ -224,6 +248,12 @@ class Game extends Component {
     this.setState({
       arr : temp
     })
+
+    if(isSolved(this.state.arr)){
+      this.setState({
+        solved: true
+      })
+    }
   }
 
 
@@ -276,7 +306,8 @@ class Game extends Component {
         //console.log(temp)
 
         this.setState({
-          arr : temp
+          arr : temp,
+          solved:true
         })
       }
       else{
@@ -284,6 +315,11 @@ class Game extends Component {
           notSolved: true
         })
       }
+
+     
+
+
+
       
 
   }
@@ -308,7 +344,8 @@ class Game extends Component {
     }
 
     this.setState({
-      arr: temp
+      arr: temp,
+      solved: false
     })
   }
 
@@ -347,6 +384,12 @@ class Game extends Component {
         notSolved: true
       })
     }
+
+    if(isSolved(this.state.arr)){
+      this.setState({
+        solved: true
+      })
+    }
   }
 
 
@@ -361,6 +404,12 @@ class Game extends Component {
   toggleStart = () => {
     this.setState({
       start: !this.state.start
+    })
+  }
+
+  toggleSolved = () => {
+    this.setState({
+      solved: !this.state.solved
     })
   }
 
@@ -381,7 +430,8 @@ class Game extends Component {
     //console.log(value);
     this.setState({
       gameType: value,
-      start: false
+      start: false,
+      solved: false
     })
 
    
@@ -416,7 +466,7 @@ class Game extends Component {
         choice: '0'
       })
       //console.log("Game Type ", this.state.gameType)
-    },10)
+    },1)
 
 
 
@@ -567,6 +617,14 @@ class Game extends Component {
             <button type = "button" className="btn btn-warning"  onClick = {this.handleGameType}>Medium</button>
             <button type = "button" className="btn btn-danger"  onClick = {this.handleGameType}>Hard</button>
            
+             
+          </ModalBody>
+        </Modal>
+
+        <Modal isOpen={this.state.solved} toggle={this.toggleSolved}>
+          <ModalHeader toggle={this.toggleSolved}>Sudoku Game</ModalHeader>
+          <ModalBody>
+            <p>You Won!!</p>
              
           </ModalBody>
         </Modal>
